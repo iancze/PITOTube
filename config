@@ -1,0 +1,21 @@
+#Configuration file for PITOTube
+
+#To get an idea of what is possible, default values are listed.
+
+[General]
+
+[CCD Parameters]
+#Gain
+#Read noise
+#Biassection
+#Datasection
+
+
+[Astrometry]
+
+[Photometry]
+
+
+
+
+
