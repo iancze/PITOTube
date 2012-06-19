@@ -1,26 +1,12 @@
-'''Target Class. Defined for each object we want to work with. Will hold all the general properties of the object'''
+'''Target Class template. The Target class is designed to hold all of the pertaining metadata (RA, DEC, name) and the corresponding Observation objects for each astronomical target that will be processed by PITOTube. Will hold all the general properties of the object'''
 
 class Target(object):
-    def __init__(self,name,z=0.0):
+    def __init__(self,name):
         self.name = name
-        self.z = z
-        self.spectra = []
-        self.lightcurves = []
+        self.RA = ""#RA object
+        self.DEC = ""#DEC object
+        self.observations = []
 
-    def set_z(self,z):
-        self.z = z
-        self.update_spectra_to_z()
-        print("Updating all the spectra")
-
-    def add_spectrum(self,spectrum):
-        spectrum.set_parent(self)
-        self.spectra.append(spectrum)
-        return spectrum
-
-    def add_lightcurve(self,lightcurve):
-        lightcurve.set_parent(self)
-        self.lightcurves.append(lightcurve)
-        
-    def update_spectra_to_z(self):
-        for i in self.spectra:
-            i.update_z()
+    def add_observation(self,observation):
+        observation.set_parent(self)
+        self.observations.append(observation)
