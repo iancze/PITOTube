@@ -26,6 +26,16 @@ class Observation(Target):
         #self.super().__init__() or whatever
 
     def stack_flats(self):
+        #use self.flat_raw_list to create a new Flatfield()
+        pass
+
+    def process(self):
+        '''This method calls the pipeline to begin processing the entire list.'''
+        #Do flats need stacking? If so, stack them
+        if len(self.flat_raw_list) > 1:
+            self.flat = self.stack_flats()
+        #Trim all of the objects, while subtracting overscan
+
         pass
 
 
