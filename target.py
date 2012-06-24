@@ -15,7 +15,7 @@ class Target(object):
 
 class Observation(Target):
     '''The Observation class contains all of the objects to fully reduce an observation taken with a single filter, such as science image, flat field(s), bias image, and exposure corrections.'''
-    def __init__(self,exptime,band):
+    def __init__(self,band):
         self.exptime = exptime
         self.band = band
         self.science = Science_Image()
@@ -29,14 +29,18 @@ class Observation(Target):
         #use self.flat_raw_list to create a new Flatfield()
         pass
 
-    def process(self):
-        '''This method calls the pipeline to begin processing the entire list.'''
+    def do_reduce(self):
+        '''This method calls the pipeline to begin reducing the data to a science format.'''
         #Do flats need stacking? If so, stack them
         if len(self.flat_raw_list) > 1:
             self.flat = self.stack_flats()
         #Trim all of the objects, while subtracting overscan
 
         pass
+
+    def do_astrometry(self):
+        pass
+
 
 
 class Image(Observation):
@@ -45,7 +49,13 @@ class Image(Observation):
         pass
 
 class Science_Image(Image):
-    pass
+    def __init__(self):
+        self.reduced = False
+
+    def set_reduced(value):
+        #TODO: Check to make sure boolean
+        self.reduced = value
+    
 
 class Flatfield(Image):
     pass
