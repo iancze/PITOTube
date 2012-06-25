@@ -1,6 +1,9 @@
-'''Target Class template. The Target class is designed to hold all of the pertaining metadata (RA, DEC, name) and the corresponding Observation objects for each astronomical target that will be processed by PITOTube. Will hold all the general properties of the object'''
+'''PITOTube is written by Ian Czekala, email: iczekala@cfa.harvard.edu or iancze@gmail.com 
+Wiki for the project is: https://github.com/iancze/PITOTube/wiki
+Website: http://iancze.github.com/PITOTube/'''
 
 from astLib import astCoords
+from pyraf import iraf
 
 class Target(object):
     '''Target holds all of the information and objects pertaining to an observation of a single target, possibly with multiple filters.'''
@@ -31,16 +34,28 @@ class Observation(Target):
     def __init__(self,band):
         self.exptime = exptime
         self.band = band
-        self.science = Science_Image()
-        self.flat = Flatfield()
-        self.flat_raw_list = [Flatfield(),Flatfield()]
-        self.bias = Bias()
+        self.science = None
+        self.flat = None
+        self.flat_raw_list = []
+        self.bias_raw_lit = []
         pass
         #self.super().__init__() or whatever
 
     def stack_flats(self):
         #use self.flat_raw_list to create a new Flatfield()
         pass
+
+    def zerocombine(self):
+        '''Combine all of the bias images into a single bias flat'''
+        iraf.zerocombine()
+
+    def flatcombine(self):
+        '''Combine all of the flats into one flat.'''
+        iraf.flatcombine()
+
+    def ccdproc(self):
+        '''Take care of trimming all of the files.'''
+        iraf.ccdproc()
 
     def do_reduce(self):
         '''This method calls the pipeline to begin reducing the data to a science format.'''
@@ -53,8 +68,6 @@ class Observation(Target):
 
     def do_astrometry(self):
         pass
-
-
 
 class Image(Observation):
     '''The image class is the base class for dealing with all FITS files, including science, flat, and bias images'''
