@@ -1,16 +1,29 @@
 '''Target Class template. The Target class is designed to hold all of the pertaining metadata (RA, DEC, name) and the corresponding Observation objects for each astronomical target that will be processed by PITOTube. Will hold all the general properties of the object'''
 
+from astLib import astCoords
+
 class Target(object):
     '''Target holds all of the information and objects pertaining to an observation of a single target, possibly with multiple filters.'''
-    def __init__(self,name):
+    def __init__(self,name,RA,DEC):
         self.name = name
-        self.RA = ""#RA object
-        self.DEC = ""#DEC object
+        if type(RA) == str:
+            self.RA = astCoords.hms2decimal(RA,":")
+        else: 
+            self.RA = RA
+        
+        if type(DEC) == str:
+            self.DEC = astCoords.dms2decimal(DEC,":")
+        else: 
+            self.DEC = DEC
+
         self.observations = []
 
     def add_observation(self,observation):
         observation.set_parent(self)
         self.observations.append(observation)
+
+    def __str__(self):
+        return "Target Name: %s\nRA: %s\nDEC:%s\n" % (self.name,self.RA, self.DEC)
 
 
 class Observation(Target):
